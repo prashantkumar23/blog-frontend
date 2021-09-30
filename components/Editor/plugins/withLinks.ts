@@ -2,7 +2,7 @@ import isUrl from "is-url";
 import { BaseEditor, Element, Editor, Range, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
-import { Link } from "../types";
+import { Link } from "../index";
 
 export const unwrapLink = (editor: BaseEditor & ReactEditor & HistoryEditor) => {
     Transforms.unwrapNodes(editor, {

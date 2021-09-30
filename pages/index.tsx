@@ -25,7 +25,7 @@ import FolderList from "../components/TopWriters";
 import { TOPICS } from "../utils/topics";
 import getTopBlogsByTopic from "../graphql/queries/getTopBlogsByTopic";
 
-const endpoint = "http://localhost:4000/api";
+const endpoint = "https://blog-backend-graphql.herokuapp.com/api";
 
 export const client = new GraphQLClient(endpoint, {
   headers: {
