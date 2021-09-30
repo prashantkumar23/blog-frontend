@@ -34,8 +34,8 @@ type UserInfo = {
   };
 };
 
-const pageNumber = 0;
-const nPerPage = 2;
+const pageNumber = 1;
+const nPerPage = 4;
 
 const RenderBlogs = React.memo(function RenderBlogs({
   data,
@@ -43,38 +43,39 @@ const RenderBlogs = React.memo(function RenderBlogs({
   hasNextPage,
 }: any) {
   return (
-    <InfiniteScroll
-      //@ts-ignore
-      loadMore={fetchNextPage}
-      hasMore={hasNextPage}
-    >
-      <Grid
-        container
-        flexDirection="row"
-        sx={{ padding: "1rem" }}
-        justifyContent="space-between"
-        spacing={2}
-        rowGap={2}
+    <Stack flexDirection="column" sx={{ padding: "2rem" }}>
+      <InfiniteScroll
+        //@ts-ignore
+        loadMore={fetchNextPage}
+        hasMore={hasNextPage}
       >
-        {data &&
-          data.pages.map((pageData: any) => {
-            return pageData.blogs?.map(
-              ({ id, title, tags, blogImageUrl, createdAt }: any) => {
-                return (
-                  <CardOne
-                    key={id}
-                    blogId={id}
-                    blogTitle={title}
-                    tags={tags}
-                    blogImageUrl={blogImageUrl!}
-                    createdAt={createdAt}
-                  />
-                );
-              }
-            );
-          })}
-      </Grid>
-    </InfiniteScroll>
+        <Grid
+          container
+          flexDirection="row"
+          justifyContent="space-between"
+          spacing={2}
+          rowGap={2}
+        >
+          {data &&
+            data.pages.map((pageData: any) => {
+              return pageData.blogs?.map(
+                ({ id, title, tags, blogImageUrl, createdAt }: any) => {
+                  return (
+                    <CardOne
+                      key={id}
+                      blogId={id}
+                      blogTitle={title}
+                      tags={tags}
+                      blogImageUrl={blogImageUrl!}
+                      createdAt={createdAt}
+                    />
+                  );
+                }
+              );
+            })}
+        </Grid>
+      </InfiniteScroll>
+    </Stack>
   );
 });
 
@@ -97,7 +98,7 @@ export default function Profile({ session }: { session: any }) {
     }
   }, [isUserInfoSuccess]);
 
-  const { data, fetchNextPage, hasNextPage } =
+  const { data, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery<GetUserBlogsResponse>(
       "userBlogs",
       ({ pageParam = { pageNumber, nPerPage } }) =>
@@ -238,13 +239,13 @@ export default function Profile({ session }: { session: any }) {
           </Container>
         </Grid>
 
-        {!data?.pages[0].blogs && (
+        {!isLoading && !data?.pages[0].blogs && (
           <Typography variant="h4" sx={{ color: "#aaa" }}>
             No blogs published yet
           </Typography>
         )}
 
-        {data?.pages[0].blogs && (
+        {!isLoading && data?.pages[0].blogs && (
           <RenderBlogs
             data={data}
             fetchNextPage={fetchNextPage}

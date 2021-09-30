@@ -9,7 +9,7 @@ import { AppLayout } from "../../layout";
 import { GetBlogsByTagResponse } from "../../types";
 import { TOPICS } from "../../utils/topics";
 
-const pageNumber = 0;
+const pageNumber = 1;
 const nPerPage = 4;
 
 export default function TopicPostPage() {

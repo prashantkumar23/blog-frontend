@@ -18,7 +18,7 @@ import {
 } from "../types";
 import getUserInfoFromName from "../graphql/queries/user/getUserInfoFromName";
 
-const pageNumber = 0;
+const pageNumber = 1;
 const nPerPage = 4;
 
 const RenderBlogs = memo(function RenderBlogs({
@@ -72,7 +72,7 @@ export default function Profile({
   //@ts-ignore
   const { user } = dehydratedState.queries[0].state.data;
 
-  const { data, fetchNextPage, hasNextPage } =
+  const { data, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery<GetUserBlogsFromOtherUsersResponse>(
       ["userBlogsFromOtherUsers", name],
       ({ pageParam = { pageNumber, nPerPage } }) =>
@@ -118,7 +118,7 @@ export default function Profile({
           </Container>
         </Grid>
 
-        {!data?.pages[0].blogs && (
+        {!isLoading && !data?.pages[0].blogs && (
           <Typography variant="h4" sx={{ color: "#aaa", marginTop: "3rem" }}>
             User haven't publish any blog yet
           </Typography>

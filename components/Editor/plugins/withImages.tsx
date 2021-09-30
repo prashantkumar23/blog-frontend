@@ -1,3 +1,4 @@
+import React from "react";
 import isUrl from "is-url";
 import imageExtensions from "image-extensions";
 import { Transforms, BaseEditor } from "slate";
@@ -7,11 +8,10 @@ import {
   ReactEditor,
   useSlateStatic,
 } from "slate-react";
+import { IconButton } from "@material-ui/core";
 import { HistoryEditor } from "slate-history";
-import React from "react";
 import ImageIcon from "@mui/icons-material/Image";
 import { ImageElement } from "..";
-import { IconButton } from "@material-ui/core";
 
 export const withImages = (
   editor: BaseEditor & ReactEditor & HistoryEditor

@@ -363,30 +363,32 @@ export default function BlogPage(props: any) {
           </Stack>
 
           {/* ***************BODY of the BLOG********************** */}
-          <div style={{ marginBottom: "3rem" }}>
-            {ReactHtmlParser(body, {
-              transform: (node) => {
-                if (node.name === "img") {
-                  const s = node.attribs.src.slice(
-                    1,
-                    node.attribs.src.length - 1
-                  );
-                  return (
-                    <img
-                      src={s}
-                      key={s}
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                        borderRadius: "0.5rem",
-                        overflow: "hidden",
-                      }}
-                    />
-                  );
-                }
-              },
-            })}
-          </div>
+          <Container style={{ marginBottom: "3rem" }} maxWidth="md">
+            <div style={{ overflowWrap: "break-word" }}>
+              {ReactHtmlParser(body, {
+                transform: (node) => {
+                  if (node.name === "img") {
+                    const s = node.attribs.src.slice(
+                      1,
+                      node.attribs.src.length - 1
+                    );
+                    return (
+                      <img
+                        src={s}
+                        key={s}
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto",
+                          borderRadius: "0.5rem",
+                          overflow: "hidden",
+                        }}
+                      />
+                    );
+                  }
+                },
+              })}
+            </div>
+          </Container>
 
           {/* ***************Add Comment to the BLOG********************** */}
           {!loading && !session && (

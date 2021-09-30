@@ -368,7 +368,7 @@ export default function CustomEditorPage() {
 
           <Stack flexDirection="column" justifyContent="flex-start">
             {/* ADD COVER IMAGE */}
-            <div className="App">
+            <div>
               <ImageUploading value={images} onChange={onChange}>
                 {({
                   imageList,
@@ -378,29 +378,35 @@ export default function CustomEditorPage() {
                   dragProps,
                 }) => (
                   <div>
-                    <Button
-                      disableElevation
-                      style={{
-                        textTransform: "none",
-                      }}
-                      onClick={onImageUpload}
-                      {...dragProps}
-                      variant="outlined"
-                    >
-                      Add a cover image
-                    </Button>
+                    {imageList.length > 0 ? null : (
+                      <Button
+                        disableElevation
+                        style={{
+                          textTransform: "none",
+                        }}
+                        onClick={onImageUpload}
+                        {...dragProps}
+                        variant="outlined"
+                      >
+                        Add a cover image
+                      </Button>
+                    )}
 
                     {imageList.map((image, index) => (
-                      <div key={index} className="image-item">
-                        <img
-                          src={image.dataURL!}
-                          alt=""
-                          width="100%"
-                          style={{
-                            borderRadius: "0.5rem",
-                            marginTop: "1rem",
-                          }}
-                        />
+                      <div key={index}>
+                        {image.dataURL ? (
+                          <img
+                            src={image.dataURL}
+                            alt=""
+                            style={{
+                              borderRadius: "0.5rem",
+                              marginTop: "1rem",
+                              width: "100%",
+                              height: "100%",
+                            }}
+                          />
+                        ) : null}
+
                         <div>
                           <Button
                             onClick={() => onImageUpdate(index)}
@@ -466,6 +472,9 @@ export default function CustomEditorPage() {
               size="small"
               isOptionEqualToValue={(option, value) => option === value}
               getOptionLabel={(option) => option.topicName}
+              getOptionDisabled={() =>
+                blogData.tags.length >= 2 ? true : false
+              }
               options={TOPICS}
               disableCloseOnSelect
               limitTags={3}

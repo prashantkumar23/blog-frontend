@@ -21,7 +21,7 @@ import {
   GetTopBlogsByTopicResponse,
   GetTopTagsByNumberOfPostResponse,
 } from "../types";
-import FolderList from "../components/TopWriters";
+import TopWriters from "../components/TopWriters";
 import { TOPICS } from "../utils/topics";
 import getTopBlogsByTopic from "../graphql/queries/getTopBlogsByTopic";
 
@@ -33,8 +33,8 @@ export const client = new GraphQLClient(endpoint, {
   },
 });
 
-const pageNumber = 0;
-const nPerPage = 2;
+const pageNumber = 1;
+const nPerPage = 4;
 
 export default function HomePage() {
   const theme = useTheme();
@@ -76,26 +76,29 @@ export default function HomePage() {
   if (data && topTags) {
     return (
       <AppLayout>
-        <Stack rowGap={2} sx={{}}>
-          {/* <CategoryList topTags={topTags} /> */}
+        <Stack rowGap={2}>
           <Stack
             justifyContent="space-between"
             columnGap={10}
             flexDirection="row"
           >
-            {/* Render all blogs */}
-            <Stack
-              flexDirection="column"
-              rowGap={2}
-              sx={{ marginBottom: "3rem" }}
-            >
-              <Typography variant="h4">{`Top Blogs in "${topic}" 🙌`}</Typography>
-              {topBlogs &&
-                topBlogs?.blogs?.map(
-                  ({ _id, title, createdAt, user, tags, blogImageUrl }) => {
-                    return (
-                      <Grid item xs={12} sm={12} key={_id} md={6}>
+            {/* Render Specific Topic blogs */}
+            <Stack flexDirection="column">
+              <Grid
+                container
+                flexDirection="column"
+                sx={{ padding: "1rem" }}
+                justifyContent="space-between"
+                spacing={2}
+                rowGap={2}
+              >
+                <Typography variant="h4">{`Top Blogs in "${topic}" 🙌`}</Typography>
+                {topBlogs &&
+                  topBlogs?.blogs?.map(
+                    ({ _id, title, createdAt, user, tags, blogImageUrl }) => {
+                      return (
                         <CardOne
+                          key={_id}
                           blogId={_id}
                           blogTitle={title}
                           tags={tags}
@@ -105,10 +108,10 @@ export default function HomePage() {
                           name={user!.name}
                           image={user!.image}
                         />
-                      </Grid>
-                    );
-                  }
-                )}
+                      );
+                    }
+                  )}
+              </Grid>
             </Stack>
 
             <Stack
@@ -149,7 +152,7 @@ export default function HomePage() {
                 </Grid>
               </Stack>
               <div>
-                <FolderList />
+                <TopWriters />
               </div>
             </Stack>
           </Stack>
@@ -207,7 +210,7 @@ export default function HomePage() {
               marginBottom: "3rem",
             }}
           >
-            <FolderList />
+            <TopWriters />
           </div>
         )}
 
