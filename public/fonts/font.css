@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "PTSerif-Regular";
+  font-weight: normal;
+  font-style: normal;
+  src: url("./PTSerif-Regular.ttf");
+}
+
+@font-face {
+  font-family: "PTSerif-Bold";
+  font-weight: bold;
+  font-style: normal;
+  src: url("./PTSerif-Bold.ttf");
+}
+
+@font-face {
+  font-family: "PTSerif-BoldItalic";
+  font-weight: bold;
+  font-style: italic;
+  src: url("./PTSerif-BoldItalic.ttf");
+}
+
+@font-face {
+  font-family: "PTSerif-Italic";
+  font-weight: normal;
+  font-style: italic;
+  src: url("./PTSerif-Italic.ttf");
+}
+
+/* POPPINS */
+
+@font-face {
+  font-family: "Poppins-Thin";
+  font-weight: lighter;
+  font-style: normal;
+  src: url("./Poppins-Thin.ttf");
+}
+
+@font-face {
+  font-family: "Poppins-Regular";
+  font-weight: normal;
+  font-style: normal;
+  src: url("./Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Poppins-Bold";
+  font-weight: bold;
+  font-style: normal;
+  src: url("./Poppins-Bold.ttf");
+}
