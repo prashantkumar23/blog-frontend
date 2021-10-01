@@ -14,12 +14,12 @@ import {
   IconButton,
   Autocomplete,
   Paper,
-  Button,
   InputBase,
   AlertColor,
   Chip,
   Checkbox,
   TextField,
+  Grid,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import PublishIcon from "@mui/icons-material/Publish";
@@ -41,6 +41,7 @@ import uploadBlogCover from "../../graphql/mutations/blog/uploadBlogCover";
 import { validateCreateBlogInputs } from "../../utils/validation";
 import { TOPICS } from "../../utils/topics";
 import { withCorrectVoidBehavior } from "../../components/Editor/plugins/withCorrectVoidBehavior";
+import { CustomButton } from "../../components/Button";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -128,6 +129,9 @@ export default function CustomEditorPage() {
     isOpen: false,
     title: "",
     subtitle: "",
+    noButtonText: "",
+    yesButtonText: "",
+    loading: false,
     onConfirm: () => console.log(""),
   });
 
@@ -203,7 +207,7 @@ export default function CustomEditorPage() {
       userId: session.user.id,
       body: serialize({ children: JSON.parse(blogData.body) }),
     };
-    console.log(obj);
+
     validateCreateBlogInputs(obj)
       ? createBlogMutation.mutate(obj)
       : setNotify({
@@ -334,18 +338,20 @@ export default function CustomEditorPage() {
       <ConfirmDialog
         confirmDialog={confirmDialog}
         setConfirmDialog={setConfirmDialog}
-        loading={false}
       />
       <Container maxWidth="md" sx={{ paddingTop: "3rem" }}>
-        <Stack rowGap={2} flexDirection="column">
+        <Stack rowGap={4} flexDirection="column">
           {/* PUBLISH AND CANCEL BUTTON */}
           <Stack flexDirection="row" justifyContent="space-between">
             <IconButton
               onClick={() => {
                 setConfirmDialog({
                   isOpen: true,
-                  title: "Are you sure to stop writing this blog",
-                  subtitle: "",
+                  title: "Are you sure want to stop writing this blog? 😯",
+                  subtitle: "all existing inputs will be lost",
+                  noButtonText: "No",
+                  yesButtonText: "Yes",
+                  loading: createBlogMutation.isLoading,
                   onConfirm: () => {
                     router.push("/");
                   },
@@ -358,8 +364,11 @@ export default function CustomEditorPage() {
               onClick={() => {
                 setConfirmDialog({
                   isOpen: true,
-                  title: "Are you sure to publish this blog",
-                  subtitle: "",
+                  title: "Are you sure want to publish this blog? 🤔",
+                  subtitle: "maybe more you can add into",
+                  noButtonText: "No",
+                  yesButtonText: "Yes",
+                  loading: createBlogMutation.isLoading,
                   onConfirm: () => {
                     handlePublish();
                   },
@@ -383,17 +392,13 @@ export default function CustomEditorPage() {
                 }) => (
                   <div>
                     {imageList.length > 0 ? null : (
-                      <Button
+                      <CustomButton
                         disableElevation
-                        style={{
-                          textTransform: "none",
-                        }}
                         onClick={onImageUpload}
                         {...dragProps}
-                        variant="outlined"
                       >
                         Add a cover image
-                      </Button>
+                      </CustomButton>
                     )}
 
                     {imageList.map((image, index) => (
@@ -411,20 +416,20 @@ export default function CustomEditorPage() {
                           />
                         ) : null}
 
-                        <div>
-                          <Button
+                        <Stack flexDirection="row" columnGap={2}>
+                          <CustomButton
                             onClick={() => onImageUpdate(index)}
                             sx={{ textTransform: "none" }}
                           >
                             Update
-                          </Button>
-                          <Button
+                          </CustomButton>
+                          <CustomButton
                             onClick={() => onImageRemove(index)}
                             sx={{ textTransform: "none" }}
                           >
                             Remove
-                          </Button>
-                        </div>
+                          </CustomButton>
+                        </Stack>
                       </div>
                     ))}
                   </div>
@@ -438,7 +443,6 @@ export default function CustomEditorPage() {
               onChange={(e) => {
                 setBlogData({ ...blogData, title: e.target.value });
               }}
-              size="small"
               style={{
                 marginTop: "2rem",
                 fontSize: "2.5rem",
@@ -537,17 +541,29 @@ export default function CustomEditorPage() {
             flexDirection="column"
             justifyContent="flex-start"
             rowGap={2}
-            sx={{ mt: "1rem" }}
+            sx={{ mt: "2rem" }}
           >
-            <Stack flexDirection="row" justifyContent="space-between">
-              <Toolbar />
-              <InputBase
-                type="search"
-                placeholder="Search the text..."
-                onChange={(e) => setSearch(e.target.value)}
-                size="small"
-              />
-            </Stack>
+            <Grid
+              container
+              justifyContent="space-between"
+              alignItems="flex-end"
+            >
+              <Grid item xs={12} sm={8}>
+                <Toolbar />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <InputBase
+                  type="search"
+                  placeholder="Search the text..."
+                  onChange={(e) => setSearch(e.target.value)}
+                  size="small"
+                  sx={{
+                    marginLeft: { xs: "0.5rem" },
+                    marginTop: { xs: "0.5rem" },
+                  }}
+                />
+              </Grid>
+            </Grid>
 
             <Editable
               spellCheck={false}

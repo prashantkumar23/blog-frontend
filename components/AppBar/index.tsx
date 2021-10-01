@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Toolbar,
-  Typography,
   Stack,
   IconButton,
   Menu,
@@ -12,7 +11,6 @@ import {
   Divider,
   Tooltip,
   styled,
-  Button,
 } from "@mui/material";
 import Image from "next/image";
 import { signIn, signOut } from "next-auth/client";
@@ -23,10 +21,12 @@ import Link from "next/link";
 
 import { useSession } from "../../next-react-query";
 import AutocompleteSearch from "../AutocompleteSearch";
+import { CustomButton } from "../Button";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  alignItems: "center",
-  paddingTop: theme.spacing(0),
+  alignItems: "flex-start",
+  justifyContent: "center",
+  paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
   // Override media queries injected by theme.mixins.toolbar
@@ -69,27 +69,27 @@ export const AppBarLayout = () => {
       <AppBar position="static" elevation={0}>
         <StyledToolbar>
           <Link href="/" passHref>
-            <Typography
-              variant="h2"
-              noWrap
-              component="div"
+            <Avatar
               sx={{
-                flexGrow: 1,
-                alignSelf: "flex-start",
-                textAlign: "center",
-                fontFamily: "Poppins-Bold",
+                width: "15rem",
+                height: "5rem",
+                paddingTop: 0,
+                backgroundColor: "transparent",
                 cursor: "pointer",
               }}
-              color="text.primary"
             >
-              Onlyblog
-            </Typography>
+              <Image src="/logo.png" layout="fill" />
+            </Avatar>
           </Link>
         </StyledToolbar>
-        <SearchAvatarContainer flexDirection="row" justifyContent="flex-end">
+        <SearchAvatarContainer
+          flexDirection="row"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
           <AutocompleteSearch />
           {!loading && !session && (
-            <Button
+            <CustomButton
               disableFocusRipple
               disableTouchRipple
               disableRipple
@@ -98,17 +98,9 @@ export const AppBarLayout = () => {
                 signIn("google");
               }}
               disableElevation
-              variant="text"
-              size="small"
-              sx={{
-                textTransform: "none",
-                "&:hover": {
-                  background: "transparent",
-                },
-              }}
             >
               Login
-            </Button>
+            </CustomButton>
           )}
           {session && (
             <Tooltip title="Account settings">

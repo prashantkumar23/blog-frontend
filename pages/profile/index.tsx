@@ -152,7 +152,13 @@ export default function Profile({ session }: { session: any }) {
 
   return (
     <AppLayout>
-      <Grid container direction="column" spacing={2} alignItems="center">
+      <Grid
+        container
+        direction="column"
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+      >
         <Grid item xs={12} sx={{ marginTop: "1rem" }}>
           <Stack
             direction="row"
@@ -219,7 +225,7 @@ export default function Profile({ session }: { session: any }) {
             {editing ? (
               <TextField
                 multiline
-                minRows={5}
+                minRows={3}
                 type="text"
                 spellCheck="false"
                 fullWidth
@@ -232,9 +238,19 @@ export default function Profile({ session }: { session: any }) {
                 }}
               />
             ) : (
-              <Typography color="primary" sx={{ textAlign: "center" }}>
-                {UserInfo && UserInfo.user.bio}
-              </Typography>
+              <div>
+                {UserInfo && UserInfo.user.bio.length === 0 && (
+                  <Typography
+                    variant="body2"
+                    sx={{ textAlign: "center", color: "#aaa" }}
+                  >
+                    Please add a bio by clicking edit button
+                  </Typography>
+                )}
+                <Typography color="primary" sx={{ textAlign: "center" }}>
+                  {UserInfo && UserInfo.user.bio}
+                </Typography>
+              </div>
             )}
           </Container>
         </Grid>

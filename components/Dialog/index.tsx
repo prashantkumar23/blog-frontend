@@ -4,9 +4,9 @@ import {
   DialogContent,
   DialogActions,
   Typography,
-  Button,
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
+import { CustomButton } from "../Button";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -15,6 +15,10 @@ const useStyles = makeStyles(() =>
       position: "absolute",
       top: "13rem",
       backgroundColor: "background.default",
+      borderRadius: "1rem",
+      borderStyle: "solid",
+      borderColor: "transparent",
+      borderWidth: "0.05rem",
     },
     dialogTitle: {
       textAlign: "center",
@@ -25,59 +29,57 @@ const useStyles = makeStyles(() =>
     dialogAction: {
       justifyContent: "center",
     },
-    titleIcon: {
-      backgroundColor: "background.default",
-      color: "background.paper",
-      "&:hover": {
-        backgroundColor: "background.default",
-        cursor: "default",
-      },
-      "& .MuiSvgIcon-root": {
-        fontSize: "8rem",
-      },
-    },
   })
 );
 
 export interface ConfirmDialogProps {
   confirmDialog: {
     isOpen: boolean;
-    title: string;
-    subtitle: string;
-    onConfirm?: () => void;
+    title?: string;
+    subtitle?: string;
+    noButtonText: string;
+    yesButtonText: string;
+    loading?: boolean;
+    onConfirm: () => void;
   };
   setConfirmDialog: (confirmDialog: any) => void;
-  loading?: boolean;
 }
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmDialog,
   setConfirmDialog,
-  loading,
 }) => {
-  const { isOpen, title, subtitle, onConfirm } = confirmDialog;
+  const {
+    isOpen,
+    title,
+    subtitle,
+    onConfirm,
+    yesButtonText,
+    noButtonText,
+    loading,
+  } = confirmDialog;
   const classes = useStyles();
 
   return (
-    <Dialog open={isOpen} classes={{ paper: classes.dialog }}>
+    <Dialog open={isOpen} classes={{ paper: classes.dialog }} maxWidth="xs">
       <DialogContent className={classes.dialogContent}>
-        <Typography variant="h6" color="secondary">
+        <Typography variant="body1" color="secondary">
           {title}
         </Typography>
-        <Typography variant="caption" color="secondary">
+        <Typography variant="caption" sx={{ color: "#aaa" }}>
           {subtitle}
         </Typography>
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
-        <Button
+        <CustomButton
           onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
           disabled={loading}
         >
-          No
-        </Button>
-        <Button onClick={onConfirm} disabled={loading}>
-          Yes
-        </Button>
+          {noButtonText}
+        </CustomButton>
+        <CustomButton onClick={onConfirm} disabled={loading}>
+          {yesButtonText}
+        </CustomButton>
       </DialogActions>
     </Dialog>
   );
