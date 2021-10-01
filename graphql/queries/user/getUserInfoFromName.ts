@@ -1,10 +1,10 @@
 import { gql } from "graphql-request";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 import { GetUserInfoFromNameInput } from "../../../types";
 
 const getUserInfoFromName = async ({ name }: GetUserInfoFromNameInput) => {
 
-    const query = gql`
+  const query = gql`
 query Query($getUserInfoFromNameName: GetUserInfoFromNameInput!) {
   getUserInfoFromName(name: $getUserInfoFromNameName) {
     user {
@@ -17,14 +17,14 @@ query Query($getUserInfoFromNameName: GetUserInfoFromNameInput!) {
 }
   `
 
-    const variables = {
-        "getUserInfoFromNameName": {
-            name
-        }
+  const variables = {
+    "getUserInfoFromNameName": {
+      name
     }
+  }
 
-    const response = await client.request(query, variables);
-    return response.getUserInfoFromName;
+  const response = await client.request(query, variables);
+  return response.getUserInfoFromName;
 };
 
 export default getUserInfoFromName;

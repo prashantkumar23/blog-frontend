@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { CreateBlogInput } from "../../../types";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const createBlog = async ({ userId, title, body, blogImageUrl, tags }: CreateBlogInput) => {
   const query = gql`

@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { client } from "../../pages";
+import { client } from "../../pages/_app";
 import { GetTopBlogsByTopicInput } from "../../types";
 
 const getTopBlogsByTopic = async ({ topic }: GetTopBlogsByTopicInput) => {

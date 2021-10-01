@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { DeleteCommentResponse, DeleteCommentInput } from "../../../types";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const deleteComment = async (
   { blogId, commentId }: DeleteCommentInput

@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { client } from "../../pages";
+import { client } from "../../pages/_app";
 
 const getBlogsByTag = async (tag: string, pageParams: any) => {
   console.log(pageParams);

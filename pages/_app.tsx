@@ -11,6 +11,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../src/createEmotionCache";
 
 import { theme } from "../theme";
+import { GraphQLClient } from "graphql-request";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -18,6 +19,10 @@ const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
+
+const endpoint = "https://blog-backend-graphql.herokuapp.com/api";
+
+export const client = new GraphQLClient(endpoint);
 
 export default function MyApp(props: MyAppProps) {
   const [queryClient] = React.useState(() => new QueryClient());

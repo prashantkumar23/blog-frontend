@@ -1,9 +1,9 @@
 import { gql } from "graphql-request";
 import { UpdateBioInput } from "../../../types";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const updateBio = async ({ userId, bio }: UpdateBioInput) => {
-    const query = gql`
+  const query = gql`
 mutation UpdateBioMutation($updateBioUpdateBioInput: UpdateBioInput!) {
   updateBio(updateBioInput: $updateBioUpdateBioInput) {
     message
@@ -12,15 +12,15 @@ mutation UpdateBioMutation($updateBioUpdateBioInput: UpdateBioInput!) {
 }
   `
 
-    const variables = {
-        updateBioUpdateBioInput: {
-            userId,
-            bio
-        }
+  const variables = {
+    updateBioUpdateBioInput: {
+      userId,
+      bio
     }
+  }
 
-    const response = await client.request(query, variables);
-    return response.createBlog;
+  const response = await client.request(query, variables);
+  return response.createBlog;
 };
 
 export default updateBio;

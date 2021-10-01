@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { Typography, Paper } from "@mui/material";
 import Link from "next/link";
 
-import { client } from "../pages";
+import { client } from "../pages/_app";
 
 interface BlogType {
   _id: string;

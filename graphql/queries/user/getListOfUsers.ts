@@ -1,9 +1,9 @@
 import { gql } from "graphql-request";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const getListOfUsers = async () => {
 
-    const query = gql`
+  const query = gql`
 query Query {
   getListOfUsers {
     users {
@@ -15,8 +15,8 @@ query Query {
 }
   `
 
-    const response = await client.request(query);
-    return response.getListOfUsers;
+  const response = await client.request(query);
+  return response.getListOfUsers;
 };
 
 export default getListOfUsers;

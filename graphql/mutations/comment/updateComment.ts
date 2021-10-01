@@ -1,11 +1,11 @@
 import { gql } from "graphql-request";
 import { UpdateCommentInput, UpdateCommentResponse } from "../../../types";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const updateComment = async (
-    { commentId, commentBody }: UpdateCommentInput
+  { commentId, commentBody }: UpdateCommentInput
 ): Promise<UpdateCommentResponse> => {
-    const query = gql`
+  const query = gql`
 mutation UpdateCommentMutation($updateCommentUpdateCommentInput: UpdateCommentInput!) {
   updateComment(updateCommentInput: $updateCommentUpdateCommentInput) {
     status
@@ -18,15 +18,15 @@ mutation UpdateCommentMutation($updateCommentUpdateCommentInput: UpdateCommentIn
 }
   `
 
-    const variables = {
-        "updateCommentUpdateCommentInput": {
-            commentId,
-            commentBody
-        }
+  const variables = {
+    "updateCommentUpdateCommentInput": {
+      commentId,
+      commentBody
     }
+  }
 
-    const response = await client.request(query, variables);
-    return response.updateComment;
+  const response = await client.request(query, variables);
+  return response.updateComment;
 };
 
 export default updateComment;

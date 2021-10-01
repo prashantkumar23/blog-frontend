@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { AddCommentInput, AddCommentResponse } from "../../../types";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 
 const addComment = async (
   { userId, blogId, commentBody }: AddCommentInput

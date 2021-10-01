@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Stack,
   Chip,
@@ -8,43 +7,38 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
-import { GraphQLClient } from "graphql-request";
-import { useInfiniteQuery, useQuery } from "react-query";
+import {
+  useInfiniteQuery,
+  QueryClient,
+  dehydrate,
+  DehydratedState,
+} from "react-query";
 import InfiniteScroll from "react-infinite-scroller";
-// import { dehydrate } from "react-query/hydration";
 import { CardOne } from "../components/Cards/CardOne";
 import getBlogs from "../graphql/queries/getBlogs";
 import getTopTagsByNumberOfPosts from "../graphql/queries/getTopTagsNumberByPost";
 import { AppLayout } from "../layout";
-import {
-  GetBlogsResponse,
-  GetTopBlogsByTopicResponse,
-  GetTopTagsByNumberOfPostResponse,
-} from "../types";
-import TopWriters from "../components/TopWriters";
+import { GetBlogsResponse } from "../types";
+import { TopWriters } from "../components/TopWriters";
 import { TOPICS } from "../utils/topics";
 import getTopBlogsByTopic from "../graphql/queries/getTopBlogsByTopic";
-
-const endpoint = "https://blog-backend-graphql.herokuapp.com/api";
-
-export const client = new GraphQLClient(endpoint, {
-  headers: {
-    authorization: `Bearer token`,
-  },
-});
+import getListOfUsers from "../graphql/queries/user/getListOfUsers";
 
 const pageNumber = 1;
 const nPerPage = 4;
 
-export default function HomePage() {
+export default function HomePage({
+  dehydratedState,
+  topic,
+}: {
+  dehydratedState: DehydratedState;
+  topic: string;
+}) {
   const theme = useTheme();
-  const [topic, setTopic] = useState("");
   const matches = useMediaQuery("(min-width:600px)");
-
-  useEffect(() => {
-    const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
-    setTopic(topic);
-  }, []);
+  const topTopics: any = dehydratedState.queries[0].state.data;
+  const topBlogs: any = dehydratedState.queries[1].state.data;
+  const listOfUsers: any = dehydratedState.queries[2].state.data;
 
   const { data, fetchNextPage, hasNextPage } =
     useInfiniteQuery<GetBlogsResponse>(
@@ -56,24 +50,7 @@ export default function HomePage() {
       }
     );
 
-  const { data: topBlogs } = useQuery<GetTopBlogsByTopicResponse>(
-    ["topBlogsByTopic", topic],
-    () => getTopBlogsByTopic({ topic }),
-    {
-      staleTime: 1000,
-      enabled: topic.length > 1 ? true : false,
-    }
-  );
-
-  const { data: topTags } = useQuery<GetTopTagsByNumberOfPostResponse[]>(
-    "topTagByNumberOfPosts",
-    getTopTagsByNumberOfPosts,
-    {
-      staleTime: Infinity,
-    }
-  );
-
-  if (data && topTags) {
+  if (data) {
     return (
       <AppLayout>
         <Stack rowGap={2}>
@@ -95,7 +72,14 @@ export default function HomePage() {
                 <Typography variant="h4">{`Top Blogs in "${topic}" 🙌`}</Typography>
                 {topBlogs &&
                   topBlogs?.blogs?.map(
-                    ({ _id, title, createdAt, user, tags, blogImageUrl }) => {
+                    ({
+                      _id,
+                      title,
+                      createdAt,
+                      user,
+                      tags,
+                      blogImageUrl,
+                    }: any) => {
                       return (
                         <CardOne
                           key={_id}
@@ -127,15 +111,15 @@ export default function HomePage() {
               <Typography variant="h4">Top topics for you 👐</Typography>
               <Stack>
                 <Grid container>
-                  {topTags.map((tag) => {
+                  {topTopics!.map((t: { tag: string }) => {
                     const color = TOPICS.find(
-                      (topic) => topic.topicName === tag.tag
+                      (topic) => topic.topicName === t.tag
                     )?.topicColorCode;
                     return (
-                      <Grid item lg={4} md={12} key={tag.tag}>
-                        <Link href={`/topics/${tag.tag}`} passHref>
+                      <Grid item lg={4} md={12} key={t.tag}>
+                        <Link href={`/topics/${t.tag}`} passHref>
                           <Chip
-                            label={tag.tag}
+                            label={t.tag}
                             clickable
                             sx={{
                               marginTop: "0.5rem",
@@ -152,7 +136,7 @@ export default function HomePage() {
                 </Grid>
               </Stack>
               <div>
-                <TopWriters />
+                <TopWriters listOfUsers={listOfUsers} />
               </div>
             </Stack>
           </Stack>
@@ -175,14 +159,14 @@ export default function HomePage() {
             >
               <div style={{ padding: "1rem" }}>
                 <Stack flexDirection="row" columnGap={2} rowGap={2}>
-                  {topTags.map((tag) => {
+                  {topTopics.map((t: { tag: string }) => {
                     const color = TOPICS.find(
-                      (topic) => topic.topicName === tag.tag
+                      (topic) => topic.topicName === t.tag
                     )?.topicColorCode;
                     return (
-                      <Link href={`/topics/${tag.tag}`} passHref key={tag.tag}>
+                      <Link href={`/topics/${t.tag}`} passHref key={t.tag}>
                         <Chip
-                          label={tag.tag}
+                          label={t.tag}
                           clickable
                           sx={{
                             marginTop: "0.5rem",
@@ -210,7 +194,7 @@ export default function HomePage() {
               marginBottom: "3rem",
             }}
           >
-            <TopWriters />
+            <TopWriters listOfUsers={listOfUsers} />
           </div>
         )}
 
@@ -263,22 +247,34 @@ export default function HomePage() {
   return null;
 }
 
-// export const getServerSideProps = async () => {
-//   const queryClient = new QueryClient();
-//   const pageNumber = 0;
-//   const nPerPage = 2;
+export const getServerSideProps = async () => {
+  const queryClient = new QueryClient();
+  const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
 
-//   await queryClient.prefetchQuery(
-//     "blogs",
-//     () => getBlogs({ pageNumber, nPerPage }),
-//     {
-//       staleTime: Infinity,
-//     }
-//   );
+  await queryClient.fetchQuery(
+    "topTagByNumberOfPosts",
+    getTopTagsByNumberOfPosts,
+    {
+      cacheTime: 100000,
+    }
+  );
 
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-// };
+  await queryClient.prefetchQuery(
+    ["topBlogsByTopic", topic],
+    () => getTopBlogsByTopic({ topic }),
+    {
+      cacheTime: 100000,
+    }
+  );
+
+  await queryClient.prefetchQuery("listOfUsers", getListOfUsers, {
+    cacheTime: 100000,
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient, { dehydrateMutations: false }),
+      topic,
+    },
+  };
+};

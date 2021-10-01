@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { client } from "../../../pages";
+import { client } from "../../../pages/_app";
 import { GetUserBlogInput } from "../../../types";
 
 const getUserBlogs = async ({ userId, pageNumber, nPerPage }: GetUserBlogInput) => {

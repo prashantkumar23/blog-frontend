@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { client } from "../../pages";
+import { client } from "../../pages/_app";
 import { GetCommentsOfBlogResponse, GetCommentsOfBlogInput } from "../../types";
 
 const getCommentsOfBlog = async ({ blogId }: GetCommentsOfBlogInput): Promise<GetCommentsOfBlogResponse> => {
