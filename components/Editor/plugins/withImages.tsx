@@ -8,7 +8,7 @@ import {
   ReactEditor,
   useSlateStatic,
 } from "slate-react";
-import { IconButton } from "@material-ui/core";
+import { IconButton } from "@mui/material";
 import { HistoryEditor } from "slate-history";
 import ImageIcon from "@mui/icons-material/Image";
 import { ImageElement } from "..";

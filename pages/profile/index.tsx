@@ -16,8 +16,8 @@ import {
   useInfiniteQuery,
 } from "react-query";
 import InfiniteScroll from "react-infinite-scroller";
-import CheckIcon from "@material-ui/icons/Check";
-import EditIcon from "@material-ui/icons/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { AppLayout } from "../../layout";
