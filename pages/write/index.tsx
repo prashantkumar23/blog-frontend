@@ -40,6 +40,7 @@ import { withImages } from "../../components/Editor/plugins/withImages";
 import uploadBlogCover from "../../graphql/mutations/blog/uploadBlogCover";
 import { validateCreateBlogInputs } from "../../utils/validation";
 import { TOPICS } from "../../utils/topics";
+import { withCorrectVoidBehavior } from "../../components/Editor/plugins/withCorrectVoidBehavior";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -131,7 +132,10 @@ export default function CustomEditorPage() {
   });
 
   const editor = useMemo(
-    () => withImages(withLinks(withHistory(withReact(createEditor())))),
+    () =>
+      withCorrectVoidBehavior(
+        withImages(withLinks(withHistory(withReact(createEditor()))))
+      ),
     []
   );
 
@@ -553,20 +557,9 @@ export default function CustomEditorPage() {
                 // borderColor: "transparent",
                 // borderWidth: "0.025rem",
                 // borderStyle: "solid",
-                height: "70vh",
+                minHeight: "70vh",
                 padding: "1rem",
               }}
-              // onDOMBeforeInput={(event: InputEvent) => {
-              //   event.preventDefault();
-              //   switch (event.inputType) {
-              //     case "formatBold":
-              //       return toggleFormat(editor, "bold");
-              //     case "formatItalic":
-              //       return toggleFormat(editor, "italic");
-              //     case "formatUnderline":
-              //       return toggleFormat(editor, "underlined");
-              //   }
-              // }}
               renderLeaf={renderLeaf}
               decorate={decorate}
               onKeyDown={(event) => {
