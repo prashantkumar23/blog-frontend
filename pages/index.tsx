@@ -60,42 +60,34 @@ export default function HomePage({
             flexDirection="row"
           >
             {/* Render Specific Topic blogs */}
-            <Stack flexDirection="column">
-              <Grid
-                container
-                flexDirection="column"
-                sx={{ padding: "1rem" }}
-                justifyContent="space-between"
-                spacing={2}
-                rowGap={2}
-              >
-                <Typography variant="h4">{`Top Blogs in "${topic}" 🙌`}</Typography>
-                {topBlogs &&
-                  topBlogs?.blogs?.map(
-                    ({
-                      _id,
-                      title,
-                      createdAt,
-                      user,
-                      tags,
-                      blogImageUrl,
-                    }: any) => {
-                      return (
-                        <CardOne
-                          key={_id}
-                          blogId={_id}
-                          blogTitle={title}
-                          tags={tags}
-                          blogImageUrl={blogImageUrl!}
-                          createdAt={createdAt}
-                          userId={user!._id}
-                          name={user!.name}
-                          image={user!.image}
-                        />
-                      );
-                    }
-                  )}
-              </Grid>
+            <Stack flexDirection="column" rowGap={2}>
+              <Typography variant="h5">{`Top Blogs in "${topic}" 🙌`}</Typography>
+
+              {topBlogs &&
+                topBlogs?.blogs?.map(
+                  ({
+                    _id,
+                    title,
+                    createdAt,
+                    user,
+                    tags,
+                    blogImageUrl,
+                  }: any) => {
+                    return (
+                      <CardOne
+                        key={_id}
+                        blogId={_id}
+                        blogTitle={title}
+                        tags={tags}
+                        blogImageUrl={blogImageUrl!}
+                        createdAt={createdAt}
+                        userId={user!._id}
+                        name={user!.name}
+                        image={user!.image}
+                      />
+                    );
+                  }
+                )}
             </Stack>
 
             <Stack
@@ -249,7 +241,7 @@ export default function HomePage({
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
-  const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
+  // const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
 
   await queryClient.fetchQuery(
     "topTagByNumberOfPosts",
@@ -260,8 +252,8 @@ export const getServerSideProps = async () => {
   );
 
   await queryClient.prefetchQuery(
-    ["topBlogsByTopic", topic],
-    () => getTopBlogsByTopic({ topic }),
+    ["topBlogsByTopic", "Science"],
+    () => getTopBlogsByTopic({ topic: "Science" }),
     {
       cacheTime: 100000,
     }
@@ -274,7 +266,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient, { dehydrateMutations: false }),
-      topic,
+      topic: "Science",
     },
   };
 };

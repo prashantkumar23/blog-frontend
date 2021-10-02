@@ -26,8 +26,8 @@ import { CustomButton } from "../Button";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   alignItems: "flex-start",
   justifyContent: "center",
-  paddingTop: theme.spacing(1),
-  paddingBottom: theme.spacing(2),
+  paddingTop: theme.spacing(0),
+  paddingBottom: theme.spacing(0),
   backgroundColor: theme.palette.background.paper,
   // Override media queries injected by theme.mixins.toolbar
   "@media all": {
@@ -70,8 +70,9 @@ export const AppBarLayout = () => {
         <StyledToolbar>
           <Link href="/" passHref>
             <Avatar
+              variant="square"
               sx={{
-                width: "15rem",
+                width: "13rem",
                 height: "5rem",
                 paddingTop: 0,
                 backgroundColor: "transparent",

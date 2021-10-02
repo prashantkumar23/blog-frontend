@@ -85,7 +85,13 @@ export default function Profile({
 
   return (
     <AppLayout>
-      <Grid container direction="column" spacing={2} alignItems="center">
+      <Grid
+        container
+        direction="column"
+        spacing={2}
+        alignItems="center"
+        sx={{ marginBottom: "2rem" }}
+      >
         <Grid item xs={12} sx={{ marginTop: "1rem" }}>
           <Stack
             direction="row"
@@ -123,13 +129,12 @@ export default function Profile({
             User haven't publish any blog yet
           </Typography>
         )}
-
-        <RenderBlogs
-          data={data}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-        />
       </Grid>
+      <RenderBlogs
+        data={data}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+      />
     </AppLayout>
   );
 }

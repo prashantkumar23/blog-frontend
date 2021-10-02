@@ -292,7 +292,11 @@ export default function BlogPage(props: any) {
           {/* ***************Title of the BLOG********************** */}
           <Typography
             variant="h3"
-            sx={{ textAlign: "center", marginTop: "1rem" }}
+            sx={{
+              textAlign: "center",
+              marginTop: "1rem",
+              overflowWrap: "break-word",
+            }}
           >
             {title}
           </Typography>

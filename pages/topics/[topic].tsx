@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
 
 import { CardOne } from "../../components/Cards/CardOne";
-import getBlogsByTag from "../../graphql/queries/getBlogsByTag";
+import getBlogsByTopic from "../../graphql/queries/getBlogsByTopic";
 import { AppLayout } from "../../layout";
 import { GetBlogsByTagResponse } from "../../types";
 import { TOPICS } from "../../utils/topics";
@@ -19,7 +19,7 @@ export default function TopicPostPage() {
     useInfiniteQuery<GetBlogsByTagResponse>(
       ["topics", router.query.topic],
       ({ pageParam = { pageNumber, nPerPage } }) =>
-        getBlogsByTag(router.query.topic as string, pageParam),
+        getBlogsByTopic(router.query.topic as string, pageParam),
       {
         getNextPageParam: (lastPage) => lastPage.next || undefined,
         staleTime: Infinity,
@@ -32,10 +32,10 @@ export default function TopicPostPage() {
       <AppLayout>
         <div style={{ marginBottom: "3rem" }}>
           <Typography
-            variant="h2"
+            variant="h4"
             sx={{ textTransform: "capitalize", marginBottom: "2rem" }}
           >
-            {router.query.topic} 🖖
+            {router.query.topic} 😻
             <Divider sx={{ marginTop: "1rem" }} />
           </Typography>
           <Typography gutterBottom>

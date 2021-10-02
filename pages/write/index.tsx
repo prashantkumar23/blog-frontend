@@ -169,6 +169,11 @@ export default function CustomEditorPage() {
 
   useEffect(() => {
     if (uploadMutation.isSuccess) {
+      setNotify({
+        isOpen: true,
+        message: "Your blog cover image is uploaded",
+        type: "success",
+      });
       const imageUrl = uploadMutation.data.url;
 
       setBlogData((prevState: any) => {
@@ -208,13 +213,15 @@ export default function CustomEditorPage() {
       body: serialize({ children: JSON.parse(blogData.body) }),
     };
 
-    validateCreateBlogInputs(obj)
-      ? createBlogMutation.mutate(obj)
-      : setNotify({
-          isOpen: true,
-          message: "Fill up your inputs correctly",
-          type: "info",
-        });
+    validateCreateBlogInputs(obj).then((valid) => {
+      valid
+        ? createBlogMutation.mutate(obj)
+        : setNotify({
+            isOpen: true,
+            message: "Fill up your inputs correctly",
+            type: "info",
+          });
+    });
   };
 
   const decorate = useCallback(
@@ -370,6 +377,7 @@ export default function CustomEditorPage() {
                   yesButtonText: "Yes",
                   loading: createBlogMutation.isLoading,
                   onConfirm: () => {
+                    console.log("hey");
                     handlePublish();
                   },
                 });

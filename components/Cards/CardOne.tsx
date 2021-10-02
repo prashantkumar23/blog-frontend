@@ -59,10 +59,10 @@ export const CardOne: React.FC<CardOne> = ({
         justifyContent: "space-between",
         bgcolor: "background.paper",
         borderRadius: "0.5rem",
-        width: { xs: 400, sm: 500 },
-        // borderColor: "#99a3a4",
-        // borderWidth: "0.05rem",
-        // borderStyle: "solid",
+        width: { xs: 380, sm: 500 },
+        borderColor: "#99a3a4",
+        borderWidth: "0.05rem",
+        borderStyle: "solid",
         cursor: "pointer",
       }}
     >

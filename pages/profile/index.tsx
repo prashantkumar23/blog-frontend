@@ -43,7 +43,7 @@ const RenderBlogs = React.memo(function RenderBlogs({
   hasNextPage,
 }: any) {
   return (
-    <Stack flexDirection="column" sx={{ padding: "2rem" }}>
+    <Stack flexDirection="column">
       <InfiniteScroll
         //@ts-ignore
         loadMore={fetchNextPage}
@@ -52,6 +52,7 @@ const RenderBlogs = React.memo(function RenderBlogs({
         <Grid
           container
           flexDirection="row"
+          sx={{ padding: "1rem" }}
           justifyContent="space-between"
           spacing={2}
           rowGap={2}
@@ -260,15 +261,14 @@ export default function Profile({ session }: { session: any }) {
             No blogs published yet
           </Typography>
         )}
-
-        {!isLoading && data?.pages[0].blogs && (
-          <RenderBlogs
-            data={data}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-          />
-        )}
       </Grid>
+      {!isLoading && data?.pages[0].blogs && (
+        <RenderBlogs
+          data={data}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+        />
+      )}
     </AppLayout>
   );
 }
