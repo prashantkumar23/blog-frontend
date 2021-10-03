@@ -166,6 +166,26 @@ export default function CustomEditorPage() {
   );
 
   const [open, setOpen] = React.useState(false);
+  const createBlogMutation = useMutation(createBlog, {
+    onSuccess: (data) => {
+      if (!data.status) {
+        setNotify({
+          isOpen: true,
+          message: data.message,
+          type: "error",
+        });
+      } else {
+        router.push("/");
+      }
+    },
+    onError: () => {
+      setNotify({
+        isOpen: true,
+        message: "Something horrible happended!",
+        type: "error",
+      });
+    },
+  });
 
   useEffect(() => {
     if (uploadMutation.isSuccess) {
@@ -198,13 +218,7 @@ export default function CustomEditorPage() {
     }
   };
 
-  const createBlogMutation = useMutation(createBlog);
-
   const [search, setSearch] = useState<string | undefined>("");
-
-  if (createBlogMutation.isSuccess) {
-    router.push("/");
-  }
 
   const handlePublish = () => {
     const obj = {
@@ -213,15 +227,13 @@ export default function CustomEditorPage() {
       body: serialize({ children: JSON.parse(blogData.body) }),
     };
 
-    validateCreateBlogInputs(obj).then((valid) => {
-      valid
-        ? createBlogMutation.mutate(obj)
-        : setNotify({
-            isOpen: true,
-            message: "Fill up your inputs correctly",
-            type: "info",
-          });
-    });
+    validateCreateBlogInputs(obj)
+      ? createBlogMutation.mutate(obj)
+      : setNotify({
+          isOpen: true,
+          message: "Fill up your inputs correctly",
+          type: "info",
+        });
   };
 
   const decorate = useCallback(
@@ -377,7 +389,6 @@ export default function CustomEditorPage() {
                   yesButtonText: "Yes",
                   loading: createBlogMutation.isLoading,
                   onConfirm: () => {
-                    console.log("hey");
                     handlePublish();
                   },
                 });

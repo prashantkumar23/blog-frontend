@@ -7,11 +7,10 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Hydrate } from "react-query/hydration";
 import { CacheProvider, EmotionCache } from "@emotion/react";
+import { GraphQLClient } from "graphql-request";
 
 import createEmotionCache from "../src/createEmotionCache";
-
 import { theme } from "../theme";
-import { GraphQLClient } from "graphql-request";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -46,7 +45,6 @@ export default function MyApp(props: MyAppProps) {
               />
             </Head>
             <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
               <Global
                 styles={css`
@@ -78,7 +76,6 @@ export default function MyApp(props: MyAppProps) {
                   }
                 `}
               />
-              {/* <button onClick={toggleDarkMode}>Click</button> */}
               {isMounted && <Component {...pageProps} />}
             </ThemeProvider>
           </Hydrate>

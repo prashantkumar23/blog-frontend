@@ -12,6 +12,7 @@ import {
   Tooltip,
   styled,
 } from "@mui/material";
+import NextNprogress from "nextjs-progressbar";
 import Image from "next/image";
 import { signIn, signOut } from "next-auth/client";
 import Logout from "@mui/icons-material/Logout";
@@ -67,6 +68,13 @@ export const AppBarLayout = () => {
   return (
     <Box sx={{ flexGrow: 1, marginBottom: "3rem" }}>
       <AppBar position="static" elevation={0}>
+        <NextNprogress
+          color="#29D"
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={3}
+          showOnShallow={true}
+        />
         <StyledToolbar>
           <Link href="/" passHref>
             <Avatar

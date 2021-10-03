@@ -46,7 +46,6 @@ export default function HomePage({
       ({ pageParam = { pageNumber, nPerPage } }) => getBlogs(pageParam),
       {
         getNextPageParam: (lastPage) => lastPage.next || undefined,
-        staleTime: 3 * 1000 * 1000,
       }
     );
 
@@ -241,7 +240,7 @@ export default function HomePage({
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
-  // const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
+  const topic = TOPICS[Math.floor(Math.random() * TOPICS.length)].topicName;
 
   await queryClient.fetchQuery(
     "topTagByNumberOfPosts",
@@ -253,7 +252,7 @@ export const getServerSideProps = async () => {
 
   await queryClient.prefetchQuery(
     ["topBlogsByTopic", "Science"],
-    () => getTopBlogsByTopic({ topic: "Science" }),
+    () => getTopBlogsByTopic({ topic }),
     {
       cacheTime: 100000,
     }
@@ -266,7 +265,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient, { dehydrateMutations: false }),
-      topic: "Science",
+      topic,
     },
   };
 };
