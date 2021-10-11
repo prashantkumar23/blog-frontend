@@ -1,36 +1,42 @@
-# Next.js with TypeScript example
+# [Livesite](https://blog-frontend-lac-nine.vercel.app/)
 
-## How to use
+## [Backend Code](https://github.com/prashantkumar23/blog-backend)
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+# Features:
 
-<!-- #default-branch-switch -->
+1. You can login with your GOOGLE account and be able to logout.(have OAUTH)
+2. You can browse all existing post (have INFINITE SCROLL)
+3. You can publish your own written blog (have CUSTOM EDITOR)
+4. You can browse a specific topic
+5. You can view your own profile.
+6. You can comment on any published blog (have OPTIMISTIC UPDATE)
+7. You can search blogs (have AUTOCOMPLETE SEARCH)
+8. You can update your comment (have OPTIMISTIC UPDATE)
+9. You can delete your comment too (have OPTIMISTIC UPDATE)
+10. You can update your bio or add new bio (have OPTIMISTIC UPDATE too).
+11. You can view other writerster's profile
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/next | tar -xz --strip=2  material-ui-next/examples/nextjs-with-typescript
-cd nextjs-with-typescript
-```
+# TECHSTACK
 
-Install it and run:
+### Frontend
 
-```sh
-npm install
-npm run dev
-```
+1. [NextJS (React Framwork for SSR and SSG)](https://nextjs.org/)
+2. [Material UI 5](https://mui.com/)
+3. [React-Query (Server Side data mangement lib and data fetching lib too)](https://react-query.tanstack.com/)
+4. [SlateJs (for Custom Editor)](https://docs.slatejs.org/)
+5. [Next-Auth(jwt) for OAuth](https://next-auth.js.org/)
 
-or:
+### Backend
 
-<!-- #default-branch-switch -->
+1. [NodeJS](https://nodejs.org/en/about/)
+2. [Apollo-Server (GraphQL server)](https://www.apollographql.com/docs/apollo-server/)
+3. [GraphQL with type-graphql](https://typegraphql.com/)
+4. [MongoDB with mongoose](https://mongoosejs.com/)
+5. [Cloudinary for image upload](https://cloudinary.com/)
+6. [JWT for auth](https://jwt.io/)
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/next/examples/nextjs-with-typescript)
+## Steps to run this repo:
 
-## The idea behind the example
-
-The project uses [Next.js](https://github.com/zeit/next.js), which is a framework for server-rendered React apps.
-It includes `@material-ui/core` and its peer dependencies, including `emotion`, the default style engine in Material-UI v5. If you prefer, you can [use styled-components instead](https://next.material-ui.com/guides/interoperability/#styled-components).
-
-## The link component
-
-Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next/link).
-The example folder provides adapters for usage with Material-UI.
-More information [in the documentation](https://next.material-ui.com/guides/routing/#next-js).
+1. Run `npm i` command
+2. Make .env file same as .env.example and fill up those values
+3. Run `npm run dev` command
